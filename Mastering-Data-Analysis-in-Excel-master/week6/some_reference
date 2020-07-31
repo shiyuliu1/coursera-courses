@@ -1,0 +1,629 @@
+# Part 2
+1.Question 1
+Introduction
+
+Part 2 is intended to illustrate how binary classification performance metrics make it possible for you to put an exact value, in dollars per event, on new information that relates to a predictive model.
+
+Note that new information will be worth far more if it is compared to no forecasting model rather than the state of partial knowledge available from the current model. Sellers of information (and data science consultants!) love to take credit for any information gain they achieve over the base rate.
+
+Very often some intermediate state of knowledge is already available for which no additional spending is required. Evaluating the realistic incremental financial gain from new information, whether licensing a third-party commercial database or collecting new data internally, is therefore of great practical value, as this sets an upper bound on what your Company should be willing to pay to license or create the new information.
+
+In this case study, your boss has been in discussions with an advanced machine-learning predictive-analytics credit-risk analytics company that claims to score individual probability of default with very high information gain. Let’s call the company Eggertopia. Eggertopia sales representatives claim their pre-processed risk-scores can achieve AUC values as high as .85 or even higher. However, Eggertopia scores are sold per-event, and they are expensive!
+
+Your boss asks you to determine the incremental financial value to the bank of purchasing Eggertopia risk scores on future credit-card applicants.
+
+Eggertopia agrees to apply its algorithms to generate credit scores for the 400 individuals in the Training and Test Sets. Eggertopia scores do not need to be combined with anything else to make a model. However, since the scores range from approximately -600 (best credit risk) to 4900 (most likely to default) they will need to be standardized and adjusted to fit the -3.5 to 3.5 range of the AUC Calculator Spreadsheet (below)
+
+AUC_Calculator and Review of AUC Curve.xlsx
+You will determine the sustainable AUC of the Eggertopia scores, the sustainable cost-per-event, and the savings per event, when comparing Eggertopia data to the base rate forecast.
+
+You will then calculate the incremental savings per event if you compare use of Eggertopia data to use of your current model developed in Part 1.
+
+Question: What is the AUC of the Eggertopia Scores on the Training Set? Give your answer to two digits to the right of the decimal point.
+1 / 1 point
+
+
+.88
+
+
+.83
+
+
+.85 *
+
+
+.95
+
+Correct
+Correct - Simply paste the Eggertopia Training Set Credit Scores (IDs 1-200) into the AUC Calculator Column A and read the AUC in Cell G2.
+
+
+2.Question 2
+What is the optimum threshold on the training set to minimize the average cost per test?
+1 / 1 point
+
+
+.1 *
+
+
+.15
+
+
+.2
+
+
+.25
+
+Correct
+Correct – column BX contains the threshold with the lowest cost-per event and Cell BX10 displays that threshold.
+
+3.Question 3
+What is the average cost-per-event at the Training Set optimum threshold?
+1 / 1 point
+
+
+$540
+
+
+$640
+
+
+$500
+
+
+$600 *
+
+Correct
+Correct – displayed in Cells J2 and BX 17
+
+
+4.Question 4
+What is the AUC of the Eggertopia scores on the Test Set?
+1 / 1 point
+
+
+.85 *
+
+
+.88
+
+
+.75
+
+
+.80
+
+Correct
+
+5.Question 5
+Using the same threshold as used on the training set, what is the cost per event of the Eggertopia scores on the Test Set? Round to the nearest dollar.
+1 / 1 point
+
+
+$838 *
+
+
+$833
+
+
+$803
+
+
+$823
+
+Correct
+Are you reading the value in Cell BX17, where Column BX has the threshold of .1?
+6.Question 6
+If the bank did not have your model, or any other way of forecasting default, what is the maximum (break-even) price per event that the bank could theoretically pay for Eggertopia scores? In other words, what are Eggertopia’s scores’ absolute savings-per-event?
+
+Hint: Calculate the difference between the cost-per-event at a 25% default rate, and the cost-per-event using Eggertopia scores
+1 / 1 point
+
+
+$412 *
+
+
+$423
+
+
+$425
+
+
+$418
+
+Correct
+$1250 minus $838
+
+7.Question 7
+What is the True Positive rate of the forecasting model using Eggertopia Scores?
+1 / 1 point
+
+
+.76
+
+
+.74
+
+
+.72 *
+
+
+.70
+
+Correct
+Shown in the Cell BX12 of the AUC Calculator Spreadsheet
+
+
+8.Question 8
+What is its Positive Predictive Value (PPV) of the forecasting model using Eggertopia scores?
+
+Hint: To calculate the PPV, divide the portion of True Positives by the total number of Positive Classifications. Review confusion matrix definitions and letter designations on the Information Gain Spreadsheet, [PPV is defined at Cell G41], obtain True Positive and False Positive Rates from the AUC Calculator Spreadsheet, and use algebra to solve.
+
+Information Gain Calculator.xlsx
+1 / 1 point
+
+
+.54
+
+
+.48*
+
+
+.50
+
+
+.52
+
+
+# Part 4
+
+1.Question 1
+Modeling Profitability Instead of Default
+
+Modeling Profitability Level as a Continuous Output (Instead of Binary Classification Default/No Default)
+
+Introduction
+
+Both your own model and the forecast based on Eggertopia scores are binary classifications: they forecast one of just two outcomes: “Default” or “No Default.” Your boss is interested in the idea that it might be preferable instead to model and forecast profits and losses as continuous values, using a a multivariate linear regression model on the same six input variables. This idea has arisen because the bank has been reviewing individual profit and loss numbers for each customer over the three-year period and has made an interesting discovery: some defaulting customers carried so much debt for so long, and paid so much interest on it, that they were profitable for the bank even though they defaulted! Many customers who seem to have risky spending behaviors are also among the most profitable for a lending business. And, at the opposite extreme,customers who always paid off their cards in full each month never defaulted but were not very profitable: the bank barely broke even, or even lost money, on its“safest” borrowers.
+
+Your boss asks you to forecast each applicant’s expected profitability, in dollars,before deciding whether or not to issue them a credit card. He wants to know how reliable this type of forecast would be: what is the range above and below the point estimate that will be correct 90% of the time?
+
+Although it might be possible to combine the six inputs in other ways, in the interests of time and focusing on the key learning objectives, we will use only a simple linear combination of the six input variables for Part 4 of this Project. (You should not include the Eggertopia Scores as an input variable).
+
+Question 1 is about the coefficients or “betas” used to combine the standardized inputs to get the best-fit-line on standardized outputs on the Training Set. We then use those fixed betas to measure the observed residual error of the model on the Test Set.
+
+Questions 2 through 6 concern the forecasts on the Test Set.
+
+Questions 7 through 11 look at the Training Set results so that they can be compared (for possible over-fitting) against the Test Set Results.
+
+Questions 12 through 14 are about the uncertainty that remains in a new individual forecast of profitability.
+
+Use the Excel “Linest” function on the six inputs and profitability output on the 200 Training Set applicants to calculate the coefficients (the “betas”) that result in the best-fit line.
+
+Question: Do you feel prepared to take this quiz?
+1 / 1 point
+
+
+Yes *
+
+
+No
+
+Correct
+2.Question 2
+Question: What are your values for each “beta” on the Training Set?
+
+Age
+Years at current employer
+Years at current address
+Income over the past year
+Current credit card debt
+Current automobile debt
+1 / 1 point
+
+
+.01, .19, .07, .64, .06, 0
+
+
+01, -.19, -.07, -.64, -.06, 0
+
+
+.01, .19, -.07, .64, -.06, 0 *
+
+Correct
+3.Question 3
+For this question, use the Liner Regression Forecasting explanation and Excel spreadsheet.
+
+Question: What is the root-mean-square residual (the standard deviation of model error) on Standardized output for the Test Set?
+1 / 1 point
+
+
+.6875
+
+
+0.6750 *
+
+
+.8109
+
+
+.5835
+
+
+.3250
+
+Correct
+If you have set up the betas correctly in cells C7:H7, the standard deviation of model error on standardized outputs should appear in [Cell W8]
+
+
+4.Question 4
+For this question, use the Linear Regression Forecasting Explanation and Spreadsheet.
+
+Question: What is the observed correlation R on the Test Set?
+1 / 1 point
+
+
+0.7378 *
+
+
+.7332
+
+
+.8095
+
+
+.7590
+
+
+5.Question 5
+For this question, use the Linear Regression Forecasting explanation and Excel spreadsheet.
+
+Question: What is the Standard deviation of model error, in Dollars, for the Test Set?
+1 / 1 point
+
+
+$3,379.36
+
+
+$3,885.14 *
+
+
+$3,996.81
+
+
+$3,411.80
+
+Correct
+The standard deviation of the original Training Set outputs in dollars is $5,755.91. [Cell AE6] Multiplying the standard deviation of error on standardized data from the Test Set – Answer to Question 3 above - by $5,755.91 should give the correct answer, which is displayed in [Cell Y7].
+
+
+6.Question 6
+For this question, use the Linear Regression Forecasting explanation and Excel spreadsheet:
+
+Question: What is the 90% confidence interval, in dollars, for the Test Set?
+1 / 1 point
+
+
+$6,574.17 above the point estimate, and $6,574.17 below the point estimate
+
+
+$5,558.55 above the point estimate, and $5,558.55 below the point estimate
+
+
+$6,390.49 above the point estimate, and $6,390.49 below the point estimate *
+
+
+$5,611.91 above the point estimate, and $5,611.91 below the point estimate
+
+
+
+7.Question 7
+What is the Percentage Information Gain (P.I.G.) on the Test Set?
+0 / 1 point
+
+
+18.9% xxxxx
+ 
+
+37.2% ?
+
+
+26.4% ?
+
+
+27.7% ?
+
+Incorrect
+The PIG is equal to the mutual information, divided by the entropy of the standardized output variable. The mutual information for Gaussians is equal to (–log2(standard deviation of error on standardized data)) The standardized output variable is also a Gaussian, with standard deviation = 1, and that has entropy = 2.05 bits. The correct answer, -log2(standard deviation of error)/2.05, should appear in [Cell Y14].
+
+
+8.Question 8
+For this question, use the Linear Regression Forecasting explanation and Excel spreadsheet:
+
+Question: What is the Correlation, R, of your model on the Training Set?
+1 / 1 point
+
+
+.8095 *
+
+
+.7505
+
+
+.7805
+
+Correct
+Correct! R^2 is given by the Linest function on Training Set data. Enter R^2 in [Cell AC4] to get R as output of [Cell AA4].
+9.Question 9
+For this question, use the Linear Regression Forecasting explanation and Excel spreadsheet:
+
+You need to quantify the uncertainty in a regression model forecast of applicants’ future profitability. Assume that both the forecast profits and the errors have a Gaussian distribution. You will calculate the standard deviation of model error on standardized data, the standard deviation in dollars of the model error, and the 90% confidence interval for profitability estimates.
+
+Question: What is the standard deviation of your model error on the standardized Training Set output?
+1 / 1 point
+
+
+.587 *
+
+
+.487
+
+
+-.487
+
+
+-.587
+
+Correct
+R^2 is given by Linest function on the Training Set. Standard deviation of model error = Sqrt(1-R^2). Enter R^2 in [Cell AC4] and answer appears in [Cell AA6].
+
+
+10.Question 10
+For this question, use the Linear Regression Forecasting explanation and Excel spreadsheet.
+
+Question: What is the standard deviation of model error in dollars on the Training Set?
+
+**This may seem similar to question 5, but Q5 refers to the Test Set.
+1 / 1 point
+
+
+$3,379.36 *
+
+
+$4,379.36
+
+
+$5,500.87
+
+
+$4,312.91
+
+
+11.Question 11
+For this question, use the Linear Regression Forecasting explanation and Excel spreadsheet.
+
+Question: What is the 90% confidence interval, in dollars, on the Training Set?
+
+**This may seem similar to question 6, but Q6 refers to the Test Set.
+1 / 1 point
+
+
+$7,128.55
+
+
+$5,558.55 *
+
+
+$5,328.93
+
+
+$6,211.18
+
+12.Question 12
+For this question, use the Linear Regression Forecasting explanation and Excel spreadsheet.
+
+Question: What is the Percentage Information Gain (P.I.G.) on the Training Set?
+
+**This may seem similar to question 7, but Q7 refers to the Test Set.
+1 / 1 point
+
+
+37.5% *
+
+
+32.4%
+
+
+41.4%
+
+
+36.5%
+
+
+13.Question 13
+Questions 13 through 15 use the same example applicant.
+
+The following data are known about the sample applicant:
+
+Age: 42.00
+
+Years at Employer: 12.44
+
+Years at Address: 0.9
+
+Income: $121,400
+
+CC debt: -34,228
+
+Auto debt: -23,411
+
+To convert above inputs to standardized form, locate the Training Set Spreadsheet (first bottom tab of workbook) in the Data for Final Project Workbook.
+
+Data_for_Final_Project.xlsx
+Use the input means [Cells C207:H207] and standard deviations [Cells C209:H209].
+
+Use the Training Set profitability mean [$1,905.51] and standard deviation [$5755.91] from the Profit and Loss (last bottom tab) Spreadsheet.
+
+Use the Test Set standard deviation of error on standardized outputs of .6750
+
+Question: What is the point estimate of profitability, in dollars?
+1 / 1 point
+
+
+$11,109.61
+
+
+$8,451.61
+
+
+-$10,683.61
+
+
+$10,683.61 *
+
+Correct
+Standardize each input variable separately, using the appropriate mean and standard deviation from the Data for Final Project Workbook [mean, cells C207:H207 and standard deviation, cells C209:H209].
+
+Then multiply each individual z-score by its “beta” coefficient from the original Excel “Linest” Calculation on the (standardized) Training Set.
+
+Then sum the results. That sum is the point forecast of profitability, expressed as a standardized output (z-score). The correct z-score estimate for y = 1.525059.
+
+Multiply the z-score by the standard deviation of profits ($5755.91), then add the mean profit ($1,905.51). You should get $10,683.61.
+
+
+14.Question 14
+The following data are known about the sample applicant:
+
+Age: 42.00
+
+Years at Employer: 12.44
+
+Years at Address: 0.9
+
+Income: $121,400
+
+CC debt: -34,228
+
+Auto debt: -23,411
+
+To convert above inputs to standardized form, locate the Training Set Spreadsheet (first bottom tab) in the Data for Final Project Workbook.
+
+Use those means [Cells C207:H207] and standard deviations [Cells C209:H209].
+
+Use the Training Set profitability mean [$1,905.51] and standard deviation [$5755.91] from the Profit and Loss (last tab on bottom) Spreadsheet
+
+Use the Test Set standard deviation of error on standardized outputs of .6750
+
+Question: With 50% confidence, what is the range of profitability?
+1 / 1 point
+
+
+Range from $12,962.61 to $10,683.61
+
+
+Range from $10,683.61 to – $2,278.99
+
+
+Range from $11,823.28 to $9,543.94
+
+
+Range from $13,304.16 to $8,063.06. *
+
+Correct
+The mean of the interval is $10,683.61 (from Question 13).
+
+This is a left-sided 25% confidence interval.
+
+The normsinv(p = .25) = -0.67448975.
+
+The interval from p= .25 to p = .75 is +- plus or minus
+
+(the standard deviation of error as a fraction of the standard deviation of profitability)*(normsinv(.25))*(standard deviation of profits)
+
+= (.675)*(0.67448975)* ($5755.91)
+
+= +- $2,620.55.
+
+The 50% confidence interval range is from ($10,683.61 + 2,620.55) to ($10,683.61 - $2,620.55).
+
+
+15.Question 15
+The following data are known about the sample applicant:
+
+Age: 42.00
+
+Years at Employer: 12.44
+
+Years at Address: 0.9
+
+Income: $121,400
+
+CC debt: -34,228
+
+Auto debt: -23,411
+
+To convert above inputs to standardized form, locate the Training Set Spreadsheet (bottom tab) in the Data for Final Project Workbook.
+
+Use those means [Cells C207:H207] and standard deviations [Cells C209:H209].
+
+Use the Training Set profitability mean [$1,905.51] and standard deviation [$5755.91] from the Profit and Loss (bottom tab) Spreadsheet
+
+Use the Test Set standard deviation of error on standardized outputs of .6750 .
+
+Question: With 99% confidence, what is the range of profitability?
+1 / 1 point
+
+
+Range from $20,691.32 to $675.90. *
+
+
+Range from $19,388.27 to 10,683.61.
+
+
+Range from $10,683.61 to -$8,704.31
+
+
+Range from $16,388.27 to -$7,704.31
+
+Correct
+The mean of the interval is $10,683.61 (from Question 13).
+
+The left-sided confidence interval is .5% or .005. The normsinv(p = .005)
+
+= -2.575829304.
+
+The interval from p= .005 to p = .995 is:
+
++- plus or minus
+
+(the standard deviation of error as a fraction of the standard deviation of profits)*(normsinv(p = .005))*(standard deviation of profits)
+
+= (.675)*(2.575829304)* ($5755.91)
+
+= +- $10,007.71.
+
+The range is from ($10,683.61 + $10,007.71)
+
+to ($10,683.61 - $10,007.71).
+
+
+16.Question 16
+Comparing Test Set and Training Set Performance
+
+Question 15: Between the Training Set and the Test Set, the dollar value of the standard deviation of model error…
+1 / 1 point
+
+
+Increased by less than 20%, which suggests minimal model over-fitting. *
+
+
+Decreased by about 15%, which suggests a very strong model on Test Set data.
+
+
+Increased by more than 50%, which leads to the conclusion of model over-fitting.
+
+
+Increased by more than 25%, which suggests possible model over-fitting.
+
+Correct
+Correct. The actual change was from $3,379.36 to $3,885.14, an increase of less than 15%.
